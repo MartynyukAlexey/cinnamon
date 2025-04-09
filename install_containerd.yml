@@ -1,0 +1,22 @@
+---
+- name: Install containerd
+  hosts: all
+  become: yes
+  tasks:
+    - name: Add docker APT repository
+      ansible.builtin.deb822_repository:
+        name: docker
+        types: [deb]
+        uris: "https://download.docker.com/linux/debian/"
+        signed_by: "https://download.docker.com/linux/debian/gpg"
+        suites: [bookworm]
+        components: [stable] 
+        state: present
+        enabled: yes
+
+    - name: Install containerd
+      ansible.builtin.apt:
+        name: containerd.io
+        state: present
+        update_cache: yes
+

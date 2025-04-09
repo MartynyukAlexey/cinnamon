@@ -1,0 +1,23 @@
+---
+- name: Install basic utils
+  hosts: all
+  become: yes
+  tasks:
+  
+    - name: Make the Swap inactive
+      command: swapoff -a
+
+    - name: Remove Swap entry from /etc/fstab.
+      ansible.builtin.lineinfile:
+        dest: /etc/fstab
+        regexp: swap
+        state: absent
+
+    - name: Install dependencies
+      ansible.builtin.apt:
+        name:
+          - ca-certificates
+          - curl
+          - gnupg
+        state: present
+        update_cache: yes

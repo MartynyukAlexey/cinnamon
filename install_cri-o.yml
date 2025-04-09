@@ -1,0 +1,23 @@
+---
+- name: Install CRI-O
+  hosts: all
+  become: yes
+  tasks:
+    - name: Add CRI-O APT repository
+      ansible.builtin.deb822_repository:
+        name: crio
+        types: [deb]
+        uris: "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/Debian_12/"
+        signed_by: "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/Debian_12/Release.gpg"
+        suites: [bookworm]
+        components: [main]
+        state: present
+        enabled: yes
+
+    - name: Install CRI-O
+      ansible.builtin.apt:
+        name:
+          - cri-o
+          - cri-o-runc
+        state: present
+        update_cache: yes

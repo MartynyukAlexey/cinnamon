@@ -1,0 +1,1 @@
+ansible-playbook -i ./inventory/hosts.ini install_k8s_components.yml -K
